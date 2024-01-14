@@ -19,7 +19,7 @@ export default class App extends Component {
   };
 
   componentDidMount() {
-    const contacts = JSON.parse(loadFromLS('contacts'));
+    const contacts = loadFromLS('contacts');
     if (contacts) {
       this.setState({ contacts });
     }
@@ -28,7 +28,7 @@ export default class App extends Component {
   componentDidUpdate(_, prevState) {
     const { contacts } = this.state;
     if (prevState.contacts !== contacts) {
-      saveToLS('contacts', JSON.stringify(contacts));
+      saveToLS('contacts', contacts);
     }
   }
 
