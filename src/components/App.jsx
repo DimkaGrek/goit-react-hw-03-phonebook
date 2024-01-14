@@ -5,6 +5,7 @@ import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
 import Notification from './Notification/Notification';
+import { saveToLS, loadFromLS } from './storage';
 
 export default class App extends Component {
   state = {
@@ -16,6 +17,20 @@ export default class App extends Component {
     ],
     filter: '',
   };
+
+  componentDidMount() {
+    const contacts = JSON.parse(loadFromLS('contacts'));
+    if (contacts) {
+      this.setState({ contacts });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      saveToLS('contacts', JSON.stringify(contacts));
+    }
+  }
 
   handlerFormSubmit = ({ name, phone }) => {
     const searchName = name.toLowerCase();
